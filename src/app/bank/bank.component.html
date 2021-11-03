@@ -1,0 +1,11 @@
+<div class="bank-unshow" (click)="addCard()">
+    {{cardsCopyNoShow.length}} cards
+</div>
+
+<div class="bank-show" *ngIf="cardsCopyShow.length">
+    <app-card [card]="cardsCopyShow[cardsCopyShow.length - 1]"
+        (click)="onCheck(cardsCopyShow[cardsCopyShow.length - 1])"></app-card>
+</div>
+<div class="" *ngIf="!cardsCopyShow.length">
+    empty
+</div>

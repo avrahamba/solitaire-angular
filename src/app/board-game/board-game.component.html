@@ -1,0 +1,8 @@
+<!-- <card *ngFor="let card of cards" [card]="card"></card> -->
+<!-- <app-card *ngFor="let card of cards" [card]="card"></app-card> -->
+
+<app-bank (check)="checkCard($event)" [cards]="cards"></app-bank>
+
+<app-target [targetLists]="targetLists" (click)="setCard('target')"></app-target>
+
+<app-list *ngFor="let cards of lists;let i = index" [cards]="cards" (click)="setCard('list'+i)"></app-list>
