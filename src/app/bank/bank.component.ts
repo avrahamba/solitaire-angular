@@ -17,15 +17,13 @@ export class BankComponent implements OnInit {
     const checked = !card.checked
     this.clearChecked.emit()
     card.checked = checked
-    checked && this.check.emit({ card, cb: this.clearCard })
+    this.check.emit({ card, cb: this.clearCard })
   }
   clearCheck = () => {
     this.cardsCopyShow.forEach(card => card.checked = false)
   }
   clearCard = () => {
-    if (this.cardsCopyShow[this.cardsCopyShow.length - 1].checked) {
-      this.cardsCopyShow.pop()
-    }
+    this.cardsCopyShow.pop()
   }
   addCard() {
     if (this.cardsCopyNoShow.length) {

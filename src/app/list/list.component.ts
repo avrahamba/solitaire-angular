@@ -23,7 +23,7 @@ export class ListComponent implements OnInit {
     const checked = !card.checked
     this.clearChecked.emit()
     card.checked = checked
-    checked && this.check.emit({ card })
+    this.check.emit({ card })
 
   }
   @Output() clearChecked = new EventEmitter()

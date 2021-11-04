@@ -91,8 +91,23 @@ export class BoardGameComponent implements OnInit {
   cbClear: Function | null = null
   checkedCard: Icard | null = null
   checkCard({ card, cb }: { card: Icard, cb?: Function }) {
-    this.cbClear = cb || null
-    this.checkedCard = card
+    if (card.checked) {
+      this.cbClear = cb || null
+      this.checkedCard = card
+    } else {
+      if (this.sendCardToTarget(card)) {
+        const srcList = this.lists.find(list => list.find(card => card.type + card.typeCard === '' + this.checkedCard?.type + this.checkedCard?.typeCard))
+        if (srcList) {
+          const srcIndex = srcList.findIndex(card => card.type + card.typeCard === '' + this.checkedCard?.type + this.checkedCard?.typeCard)
+          srcList.splice(srcIndex || 0)
+          if (srcList.length) {
+            srcList[srcList.length - 1].show = true
+          }
+        } else {
+          cb && cb()
+        }
+      }
+    }
   }
 
   clearChecked() {
