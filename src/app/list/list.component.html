@@ -1,4 +1,4 @@
 <p>______________</p>
 <div>
-    <app-card *ngFor="let card of cards" [card]="card"></app-card>
+    <app-card *ngFor="let card of cards" [card]="card" (click)="setCard(card,$event)"></app-card>
 </div>

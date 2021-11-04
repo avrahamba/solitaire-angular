@@ -1,3 +1,6 @@
-<div class="card" [ngClass]="{checked: card.checked}">
-    {{card.typeCard+' '+card.type+(card.show?' show':'')}}
+<div *ngIf="card.show" class="card" [ngClass]="{checked: card.checked}">
+    {{card.typeCard+' '+card.type}}
+</div>
+<div *ngIf="!card.show" class="card" [ngClass]="{checked: card.checked}">
+    hidden
 </div>

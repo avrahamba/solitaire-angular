@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 interface IoutputCard {
   card: Icard
-  cb: Function
+  cb?: Function
 }
 
 @Component({
@@ -13,12 +13,14 @@ interface IoutputCard {
 export class BankComponent implements OnInit {
   cardsCopyNoShow: Icard[] = []
   cardsCopyShow: Icard[] = []
-  @Output() check = new EventEmitter<IoutputCard>();
   onCheck(card: Icard) {
-    card.checked = !card.checked
-    if (card.checked) {
-      this.check.emit({ card, cb: this.clearCard })
-    }
+    const checked = !card.checked
+    this.clearChecked.emit()
+    card.checked = checked
+    checked && this.check.emit({ card, cb: this.clearCard })
+  }
+  clearCheck = () => {
+    this.cardsCopyShow.forEach(card => card.checked = false)
   }
   clearCard = () => {
     if (this.cardsCopyShow[this.cardsCopyShow.length - 1].checked) {
@@ -43,7 +45,12 @@ export class BankComponent implements OnInit {
       firstCard.show = true
       this.cardsCopyShow.push(firstCard)
     }
-    this.cardsCopyNoShow.push(...this.cards)
+    this.cardsCopyNoShow.push(...this.cards.map(card => ({ ...card, show: true })))
+    this.clearCheckedUpDoun.emit(this.clearCheck)
   }
+
+  @Output() check = new EventEmitter<IoutputCard>();
+  @Output() clearCheckedUpDoun = new EventEmitter<Function>();
+  @Output() clearChecked = new EventEmitter()
   @Input() cards!: Icard[]
 }

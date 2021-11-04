@@ -60,24 +60,19 @@ export class BoardGameComponent implements OnInit {
     tile: Icard[]
     clover: Icard[]
     pike: Icard[]
-  } = {
-      heart: [],
-      tile: [],
-      clover: [],
-      pike: [],
-    }
+  } = { heart: [], tile: [], clover: [], pike: [], }
 
   sendCardToTarget(card: Icard) {
     const stack = this.targetLists[card.type]
     if (stack.length) {
       const lastCard = stack[stack.length - 1]
       if (typesCard.indexOf(lastCard.typeCard) + 1 === typesCard.indexOf(card.typeCard)) {
-        stack.push(card)
+        stack.push({ ...card, checked: false })
         return true
       }
     } else {
       if (card.typeCard === 'A') {
-        stack.push(card)
+        stack.push({ ...card, checked: false })
         return true
       }
     }
@@ -86,18 +81,57 @@ export class BoardGameComponent implements OnInit {
 
   cbClear: Function | null = null
   checkedCard: Icard | null = null
-  checkCard({ card, cb }: { card: Icard, cb: Function }) {
-    this.cbClear = cb
+  checkCard({ card, cb }: { card: Icard, cb?: Function }) {
+    this.cbClear = cb || null
     this.checkedCard = card
+  }
+
+  clearChecked() {
+    this.lists.forEach(list => {
+      list.forEach(card => {
+        card.checked = false
+      })
+    })
+    this.onClearCheckedUpDoun && this.onClearCheckedUpDoun()
+  }
+  onClearCheckedUpDoun: Function | null = null
+  clearCheckedUpDoun = (ev: Function) => {
+    this.onClearCheckedUpDoun = ev
   }
 
   setCard(location: string) {
     if (!this.checkedCard) return
+    const srcList = this.lists.find(list => list.find(card => card.type + card.typeCard === '' + this.checkedCard?.type + this.checkedCard?.typeCard))
+    const srcIndex = srcList?.findIndex(card => card.type + card.typeCard === '' + this.checkedCard?.type + this.checkedCard?.typeCard)
+    const closeFn = () => {
+      this.cbClear && this.cbClear()
+      this.clearChecked()
+      srcList?.splice(srcIndex || -1)
+      if (srcList?.length && !srcList[srcList?.length - 1].show) srcList[srcList?.length - 1].show = true
+
+    }
     if (location === 'target') {
       const scss = this.sendCardToTarget(this.checkedCard)
       if (!scss) return
-      this.cbClear && this.cbClear()
-      this.checkedCard.checked = false
+      closeFn()
+    } else {
+      location = location.slice(-1)
+      const list: Icard[] = this.lists[+location]
+      if (srcList === list) {
+        this.clearChecked()
+        return
+      }
+      if (!list.length || list[list.length - 1].red !== this.checkedCard.red && typesCard.indexOf(list[list.length - 1].typeCard) === typesCard.indexOf(this.checkedCard.typeCard) + 1) {
+        if (!srcList || srcIndex === srcList.length - 1) {
+          list.push(this.checkedCard)
+        } else {
+          const cards = srcList.slice(srcIndex)
+          list.push(...cards)
+
+        }
+        closeFn()
+        return
+      }
     }
   }
 
