@@ -1,10 +1,11 @@
 <!-- <card *ngFor="let card of cards" [card]="card"></card> -->
 <!-- <app-card *ngFor="let card of cards" [card]="card"></app-card> -->
 <div class="top">
-
-    <app-bank (check)="checkCard($event)" (clearCheckedUpDoun)="clearCheckedUpDoun($event)" [cards]="cards"
-        (clearChecked)="clearChecked()"></app-bank>
-
+    <app-bank (check)="checkCard($event)" (clearCheckedUpDoun)="clearCheckedUpDoun($event)"
+        (restartUpDoun)="restartUpDoun($event)" [cards]="cards" (clearChecked)="clearChecked()"></app-bank>
+    <button class="btn" (click)="restart()">
+        restart
+    </button>
     <app-target [targetLists]="targetLists" (click)="setCard('target')"></app-target>
 </div>
 <div class="lists-card">

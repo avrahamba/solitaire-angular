@@ -13,9 +13,9 @@ export class TargetComponent implements OnInit {
 
   @Input() targetLists!: {
     heart: Icard[]
-    tile: Icard[]
-    clover: Icard[]
-    pike: Icard[]
+    diamond: Icard[]
+    spade: Icard[]
+    club: Icard[]
   }
 
 }

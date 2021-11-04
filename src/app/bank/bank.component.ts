@@ -36,6 +36,19 @@ export class BankComponent implements OnInit {
       this.cardsCopyShow.splice(0, this.cardsCopyShow.length)
     }
   }
+
+  restart = () => {
+    this.cardsCopyShow = []
+    this.cardsCopyNoShow = []
+    const firstCard = this.cards.pop()
+    if (firstCard) {
+      firstCard.show = true
+      this.cardsCopyShow.push(firstCard)
+    }
+    this.cardsCopyNoShow.push(...this.cards.map(card => ({ ...card, show: true })))
+
+  }
+
   constructor() {
   }
 
@@ -47,10 +60,12 @@ export class BankComponent implements OnInit {
     }
     this.cardsCopyNoShow.push(...this.cards.map(card => ({ ...card, show: true })))
     this.clearCheckedUpDoun.emit(this.clearCheck)
+    this.restartUpDoun.emit(this.restart)
   }
 
   @Output() check = new EventEmitter<IoutputCard>();
   @Output() clearCheckedUpDoun = new EventEmitter<Function>();
+  @Output() restartUpDoun = new EventEmitter<Function>();
   @Output() clearChecked = new EventEmitter()
   @Input() cards!: Icard[]
 }

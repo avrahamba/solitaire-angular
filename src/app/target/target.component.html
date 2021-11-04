@@ -1,18 +1,19 @@
 <div class="target">
     <div class="target-card">
         <app-card *ngIf="targetLists.heart.length" [card]="targetLists.heart[targetLists.heart.length-1]"></app-card>
-        <div *ngIf="!targetLists.heart.length">empty</div>
+        <div *ngIf="!targetLists.heart.length"></div>
     </div>
     <div class="target-card">
-        <app-card *ngIf="targetLists.tile.length" [card]="targetLists.tile[targetLists.tile.length-1]"></app-card>
-        <div *ngIf="!targetLists.tile.length">empty</div>
+        <app-card *ngIf="targetLists.diamond.length" [card]="targetLists.diamond[targetLists.diamond.length-1]">
+        </app-card>
+        <div *ngIf="!targetLists.diamond.length"></div>
     </div>
     <div class="target-card">
-        <app-card *ngIf="targetLists.clover.length" [card]="targetLists.clover[targetLists.clover.length-1]"></app-card>
-        <div *ngIf="!targetLists.clover.length">empty</div>
+        <app-card *ngIf="targetLists.spade.length" [card]="targetLists.spade[targetLists.spade.length-1]"></app-card>
+        <div *ngIf="!targetLists.spade.length"></div>
     </div>
     <div class="target-card">
-        <app-card *ngIf="targetLists.pike.length" [card]="targetLists.pike[targetLists.pike.length-1]"></app-card>
-        <div *ngIf="!targetLists.pike.length">empty</div>
+        <app-card *ngIf="targetLists.club.length" [card]="targetLists.club[targetLists.club.length-1]"></app-card>
+        <div *ngIf="!targetLists.club.length"></div>
     </div>
 </div>

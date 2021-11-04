@@ -1,0 +1,21 @@
+.bank {
+    display: flex;
+    .bank-unshow {
+        .card-unshow {
+            width: 100px;
+            height: 150px;
+            background: #fff;
+            border: 1px solid #000;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: -148px;
+        }
+        margin-inline-end: 20px;
+    }
+    .empty {
+        width: 100px;
+        height: 150px;
+        border: 1px solid #000;
+        border-radius: 12px;
+    }
+}

@@ -1,3 +1,24 @@
-.checked{
-    color: red;
+.card {
+    width: 100px;
+    height: 150px;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: -110px;
+    &:not(.hidden-card) {
+        cursor: pointer;
+    }
+}
+
+.red {
+    color: #be1931;
+}
+
+.checked {
+    border: 1px solid #f00;
+}
+
+.hidden-card {
+    margin-bottom: -140px;
 }

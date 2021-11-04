@@ -27,21 +27,27 @@ const typesCard: cardTypeCard[] = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 
 })
 
 export class BoardGameComponent implements OnInit {
-  cards: Icard[] = (['heart', 'tile', 'clover', 'pike'] as cardType[]).reduce((acc: Icard[], type: cardType, i) => {
-    acc.push(...typesCard.map(typeCard => ({
-      typeCard,
-      type,
-      red: i < 2,
-      show: false,
-      possible: false,
-      checked: false,
-    })))
-    return acc
-  }, [])
+  cards: Icard[] = []
 
-  lists: Icard[][] = [[], [], [], [], [], [], []]
+
+  lists: Icard[][] = []
   constructor() {
-    this.cards = shuffle(this.cards)
+    this.init()
+  }
+  init() {
+    const card = (['heart', 'diamond', 'spade', 'club'] as cardType[]).reduce((acc: Icard[], type: cardType, i) => {
+      acc.push(...typesCard.map(typeCard => ({
+        typeCard,
+        type,
+        red: i < 2,
+        show: false,
+        sign: ['♥️', '♦️', '♠️', '♣️'][i],
+        checked: false,
+      })))
+      return acc
+    }, [])
+    this.cards = shuffle(card)
+    this.lists = [[], [], [], [], [], [], []]
     this.lists.forEach((list, index) => {
       for (let i = 0; i < index; i++) {
         const card = this.cards.pop()
@@ -53,14 +59,17 @@ export class BoardGameComponent implements OnInit {
         list.push(cardShow)
       }
     })
+
+    this.targetLists = { heart: [], diamond: [], spade: [], club: [], }
+    this.onRestartUpDounUpDoun && this.onRestartUpDounUpDoun()
   }
 
   targetLists: {
     heart: Icard[]
-    tile: Icard[]
-    clover: Icard[]
-    pike: Icard[]
-  } = { heart: [], tile: [], clover: [], pike: [], }
+    diamond: Icard[]
+    spade: Icard[]
+    club: Icard[]
+  } = { heart: [], diamond: [], spade: [], club: [], }
 
   sendCardToTarget(card: Icard) {
     const stack = this.targetLists[card.type]
@@ -98,6 +107,14 @@ export class BoardGameComponent implements OnInit {
   clearCheckedUpDoun = (ev: Function) => {
     this.onClearCheckedUpDoun = ev
   }
+  onRestartUpDounUpDoun: Function | null = null
+  restartUpDoun = (ev: Function) => {
+    this.onRestartUpDounUpDoun = ev
+  }
+
+  restart() {
+    this.init()
+  }
 
   setCard(location: string) {
     if (!this.checkedCard) return
@@ -106,7 +123,7 @@ export class BoardGameComponent implements OnInit {
     const closeFn = () => {
       this.cbClear && this.cbClear()
       this.clearChecked()
-      srcList?.splice(srcIndex || -1)
+      srcList?.splice(srcIndex || 0)
       if (srcList?.length && !srcList[srcList?.length - 1].show) srcList[srcList?.length - 1].show = true
 
     }
